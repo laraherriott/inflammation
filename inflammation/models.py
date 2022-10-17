@@ -8,9 +8,11 @@ import inflammation
 import os
 import inspect
 
+
 def get_data_dir():
     """get default directory holding data files"""
     return os.path.dirname(inspect.getfile(inflammation)) + '/data'
+
 
 def load_csv(filename):
     """Load a Numpy array from a CSV
@@ -37,6 +39,16 @@ def daily_max(data):
 def daily_min(data):
     """Calculate the daily min of a 2d inflammation data array."""
     return np.min(data, axis=0)
+
+
+def patient_normalise(data):
+    """Normalise patient data between 0 and 1 of a 2D inflammation data array."""
+    if isinstance(data, nparray) == F:
+        raise TypeError("Dataframe must be of type nparray")
+    max_for_each_patient = np.max(data, axis=1)
+    norm = data / max_for_each_patient[:, np.newaxis]
+    norm[np.isnan(norm)] = 0
+    return norm
 
 
 # TODO(lesson-design) Add Patient class

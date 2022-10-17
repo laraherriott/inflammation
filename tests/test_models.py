@@ -32,6 +32,17 @@ def test_daily_mean_integers():
     npt.assert_array_equal(np.array([3, 4]), daily_mean(test_array))
 
 
+@pytest.mark.parametrize(
+    "test, expected",
+    [
+        ([[1, 2, 3], [4, 5, 6], [7, 8, 9]], [[0.33, 0.66, 1], [0.66, 0.83, 1], [0.77, 0.88, 1]])
+    ])
+def test_patient_normalise(test, expected):
+    """Test normalisation works for arrays of one and positive integers."""
+    from inflammation.models import patient_normalise
+    npt.assert_almost_equal(np.array(expected), patient_normalise(np.array(test)), decimal=2)
+
+
 @pytest.mark.parametrize("test, expected", [([[1, 1], [2, 1], [3, -1]], [3, 1]),
                                             ([[1, 1], [3, 3], [5, -1]], [5, 3])])
 def test_daily_max(test, expected):
